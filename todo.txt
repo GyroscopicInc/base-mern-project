@@ -1,0 +1,11 @@
+- Set up crud routes module
+  - repositories
+  - controller factory / route factory
+  - hooks
+- Set up redux toolkit
+- Set up layouts
+- authentication 
+  - login/jwt
+  - registration
+✅ ESlint AirBNB, PrettierRC
+- 
