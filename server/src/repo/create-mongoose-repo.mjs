@@ -1,7 +1,7 @@
 const queryTypes = {
-  idList: new Symbol(),
-  id: new Symbol(),
-  queryObject: new Symbol(),
+  idList: Symbol(),
+  id: Symbol(),
+  queryObject: Symbol(),
 };
 
 const getQueryType = (query) => {
@@ -22,17 +22,17 @@ const createMongooseRepo = (Model) => {
       if (Array.isArray(entities)) {
         return Promise.all(entities.map(createModel));
       }
-      return createModel(entity);
+      return createModel(entities);
     },
 
-    find(query, options) {
+    find(query) {
       switch (getQueryType(query)) {
         case queryTypes.id:
           return Model.findById(query).exec();
         case queryTypes.queryObject:
           return Model.find(query).exec();
         case queryTypes.idList:
-          return model.find().where("_id").in(query).exec();
+          return Model.find().where("_id").in(query).exec();
         default:
           return undefined;
       }
@@ -45,20 +45,20 @@ const createMongooseRepo = (Model) => {
         case queryTypes.queryObject:
           return Model.update(query, updates).exec();
         case queryTypes.idList:
-          return model.updateMany({ _id: { $in: query } }, updates).exec();
+          return Model.updateMany({ _id: { $in: query } }, updates).exec();
         default:
           return undefined;
       }
     },
 
-    del() {
+    del(query) {
       switch (getQueryType(query)) {
         case queryTypes.id:
           return Model.findByIdAndDelete(query).exec();
         case queryTypes.queryObject:
           return Model.deleteMany(query).exec();
         case queryTypes.idList:
-          return model.deleteMany({ _id: { $in: query } }).exec();
+          return Model.deleteMany({ _id: { $in: query } }).exec();
         default:
           return undefined;
       }
