@@ -5,7 +5,7 @@ import session from 'express-session';
 import passport from 'passport';
 
 import indexRouter from './routes/index.mjs';
-import usersRouter from './routes/users.mjs';
+import authroutes from './routes/auth.mjs';
 
 const app = express();
 
@@ -32,6 +32,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/auth', authroutes);
 
 export default app;

@@ -6,17 +6,13 @@ import User from '../models/User';
 
 const router = express.Router();
 
-router.get('/', function (req, res, next) {
-  res.send('respond with a resource');
-});
-
 /**
  * @route   POST api/users/login
  * @desc    user login
  * @access  public
  */
 router.post('/login', async (req, res, next) => {
-  await passport.authenticate('local', (err, user, info) => {
+  await passport.authenticate('local', (err, user) => {
     if (err) return next(err);
 
     if (!user)
@@ -46,9 +42,11 @@ router.get('/logout', async (req, res) => {
   res.json({ message: 'Logout success' });
 });
 
-// @route   POST api/users/register
-// @desc    register a new user
-// @access  public
+/**
+ * @route   POST api/users/register
+ * @desc    register a new user
+ * @access  public
+*/
 router.post('/register', async (req, res) => {
   const { name, email, password } = req.body;
 
